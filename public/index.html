@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="es" class="no-js">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Reporte Ciudadano</title>
+    <meta name="description"
+        content="Plataforma de reporte ciudadano para registrar incidencias, consultar estatus y visualizar reportes en mapa en tiempo real.">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
@@ -64,6 +66,9 @@
             color: var(--dark);
             background: var(--bg);
             -webkit-font-smoothing: antialiased;
+            background-image:
+                radial-gradient(circle at 20% 0%, rgba(157, 27, 50, 0.06), transparent 28%),
+                radial-gradient(circle at 80% 20%, rgba(157, 27, 50, 0.04), transparent 30%);
         }
 
         /* ===== HEADER ===== */
@@ -81,6 +86,42 @@
         .site-header .brand a {
             color: var(--white);
             font-weight: 800;
+        }
+
+        .site-header .brand img {
+            border-radius: 8px;
+        }
+
+        .header-nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .header-link {
+            color: #cbd5e1;
+            font-size: 0.83rem;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: var(--r-full);
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .header-link:hover {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.14);
+        }
+
+        .header-cta {
+            background: linear-gradient(135deg, var(--primary) 0%, #b52040 100%);
+            color: #fff !important;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 22px rgba(157, 27, 50, 0.35);
         }
 
         .hamburger-inner,
@@ -108,8 +149,21 @@
                 radial-gradient(ellipse 60% 50% at 20% 50%, rgba(157, 27, 50, 0.18) 0%, transparent 60%),
                 radial-gradient(ellipse 40% 60% at 80% 20%, rgba(157, 27, 50, 0.12) 0%, transparent 60%),
                 radial-gradient(ellipse 30% 40% at 60% 80%, rgba(100, 10, 30, 0.15) 0%, transparent 60%);
+            animation: pulse-glow 8s infinite alternate ease-in-out;
             pointer-events: none;
             z-index: 0;
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                opacity: 0.6;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
         }
 
         .hero-inner {
@@ -132,6 +186,79 @@
             color: #94a3b8;
             font-size: 1.15rem;
             line-height: 1.7;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 700;
+            color: #f8d1d8;
+            background: rgba(157, 27, 50, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: var(--r-full);
+            padding: 8px 14px;
+            margin-bottom: 1rem;
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #fb7185;
+            box-shadow: 0 0 0 5px rgba(251, 113, 133, 0.2);
+        }
+
+        .hero-content .button-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .hero-trust {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .hero-trust-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #dbeafe;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--r-full);
+            padding: 7px 12px;
+        }
+
+        .hero-figure {
+            position: relative;
+        }
+
+        .hero-figure img {
+            border-radius: var(--r-lg);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .hero-figure-badge {
+            position: absolute;
+            right: 18px;
+            bottom: 18px;
+            background: rgba(15, 23, 42, 0.86);
+            color: #fff;
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            border-radius: var(--r-md);
+            padding: 9px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
         }
 
         /* ===== BUTTONS ===== */
@@ -186,6 +313,57 @@
             background: linear-gradient(180deg, #fff 0%, #f8fafc 100%);
         }
 
+        .features-tiles .section-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .quick-steps {
+            padding: 4.5rem 0;
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+
+        .quick-steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .quick-step {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--r-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .quick-step-index {
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(157, 27, 50, 0.12);
+            color: var(--primary);
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .quick-step h4 {
+            margin: 0 0 8px;
+            font-size: 1.08rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .quick-step p {
+            margin: 0;
+            color: #64748b;
+            font-size: 0.92rem;
+            line-height: 1.65;
+        }
+
         .section-header h2 {
             font-weight: 800;
             letter-spacing: -0.03em;
@@ -233,14 +411,17 @@
         }
 
         .features-tiles h4 {
-            font-weight: 700;
+            font-weight: 800;
             color: var(--dark);
-            letter-spacing: -0.02em;
+            letter-spacing: -0.03em;
+            font-size: 1.35rem;
+            margin-bottom: 0.75rem;
         }
 
         .features-tiles p.text-sm {
             color: var(--gray);
-            line-height: 1.65;
+            line-height: 1.7;
+            font-size: 0.95rem;
         }
 
         /* ===== DASHBOARD SECTION ===== */
@@ -632,6 +813,20 @@
             box-shadow: 0 4px 14px var(--primary-glow);
         }
 
+        .incidents-table-wrap::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .incidents-table-wrap::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 999px;
+        }
+
+        .incidents-table-wrap::-webkit-scrollbar-track {
+            background: #eef2f7;
+            border-radius: 999px;
+        }
+
         /* Location Button */
         .btn-my-location {
             background: linear-gradient(135deg, var(--primary) 0%, #b52040 100%);
@@ -671,6 +866,48 @@
             color: var(--white) !important;
         }
 
+        .final-cta {
+            padding: 4.5rem 0;
+            background: linear-gradient(120deg, #120308 0%, #260710 35%, #13030a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 15% 30%, rgba(157, 27, 50, 0.35), transparent 55%),
+                radial-gradient(ellipse at 85% 70%, rgba(157, 27, 50, 0.22), transparent 55%);
+            pointer-events: none;
+        }
+
+        .final-cta-card {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: var(--r-xl);
+            padding: 2.2rem;
+            backdrop-filter: blur(12px);
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .final-cta-card h2 {
+            color: #fff;
+            margin: 0 0 12px;
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            letter-spacing: -0.03em;
+        }
+
+        .final-cta-card p {
+            color: #cbd5e1;
+            margin: 0 auto 1.4rem;
+            max-width: 700px;
+        }
+
         /* Tabs */
         .tab.is-active {
             border-bottom: 3px solid var(--primary);
@@ -704,6 +941,10 @@
         }
 
         @media (max-width: 640px) {
+            .header-link {
+                display: none;
+            }
+
             .dashboard-inner .split-wrap {
                 flex-direction: column;
             }
@@ -711,6 +952,25 @@
             .stats-grid {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 10px;
+            }
+
+            .hero-trust {
+                gap: 8px;
+            }
+
+            .hero-trust-item {
+                font-size: 0.72rem;
+                padding: 6px 10px;
+            }
+
+            .hero-figure-badge {
+                right: 10px;
+                bottom: 10px;
+                font-size: 0.7rem;
+            }
+
+            .quick-steps-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -722,14 +982,18 @@
             <div class="container">
                 <div class="site-header-inner">
                     <div class="brand">
-                        <h1 class="m-0"><a href="index.html"><img src="images/logo.svg" alt="Tidy" width="32"
+                        <h1 class="m-0"><a href="index.html"><img src="images/logo.svg" alt="Reporte Ciudadano" width="32"
                                     height="32"></a></h1>
                     </div><button id="header-nav-toggle" class="header-nav-toggle" aria-controls="primary-menu"
                         aria-expanded="false"><span class="screen-reader">Menu</span> <span class="hamburger"><span
                                 class="hamburger-inner"></span></span></button>
                     <nav id="header-nav" class="header-nav">
                         <div class="header-nav-inner">
-
+                            <a class="header-link" href="#beneficios">Beneficios</a>
+                            <a class="header-link" href="#mapa">Mapa</a>
+                            <a class="header-link" href="#incidencias">Incidencias</a>
+                            <a class="header-link header-cta modal-trigger" aria-controls="modal-report"
+                                href="#0">Reportar ahora</a>
                         </div>
                     </nav>
                 </div>
@@ -742,15 +1006,18 @@
                         <div class="split-wrap">
                             <div class="split-item">
                                 <div class="hero-content split-item-content center-content-mobile reveal-from-top">
-                                    <h1 class="mt-0 mb-16">Landing template for startups</h1>
-                                    <p class="mt-0 mb-32">Our landing page template works on all devices, so you only
-                                        have to set it up once, and get beautiful results forever.</p>
+                                    <span class="hero-eyebrow">Plataforma ciudadana 24/7</span>
+                                    <h1 class="mt-0 mb-16">Reporta incidencias y mejora tu ciudad en minutos</h1>
+                                    <p class="mt-0 mb-32">Conecta con tu municipio de forma rápida, transparente y
+                                        desde cualquier dispositivo. Tu reporte se registra al instante y puedes darle
+                                        seguimiento en tiempo real.</p>
                                     <div class="button-group">
                                         <a class="button button-primary button-wide-mobile modal-trigger"
                                             aria-controls="modal-report" href="#0">Reportar incidencia</a>
                                         <a class="button button-dark button-wide-mobile modal-trigger"
                                             aria-controls="modal-consult" href="#0">Consultar Reporte</a>
                                     </div>
+                                 
                                 </div>
                                 <div
                                     class="hero-figure split-item-image split-item-image-fill illustration-element-01 reveal-from-bottom">
@@ -758,6 +1025,7 @@
                                         data-video="https://player.vimeo.com/video/174002812" data-video-tag="iframe"
                                         href="#"><img src="images/video-placeholder.jpg" alt="Video" width="528"
                                             height="396"></a>
+                                    <span class="hero-figure-badge">+100 incidencias visibles en el mapa</span>
                                 </div>
                                 <div id="modal-01" class="modal modal-video">
                                     <div class="modal-inner">
@@ -770,9 +1038,16 @@
                     </div>
                 </div>
             </section>
-            <section class="features-tiles section">
+            <section id="beneficios" class="features-tiles section">
                 <div class="container">
                     <div class="features-tiles-inner section-inner">
+                        <div class="section-header center-content">
+                            <div class="container-xs">
+                                <h2 class="mt-0 mb-16">Una experiencia simple para cada ciudadano</h2>
+                                <p class="m-0">Diseñada para reportar, consultar y verificar incidencias sin
+                                    complicaciones.</p>
+                            </div>
+                        </div>
                         <div class="tiles-wrap">
                             <div class="tiles-item reveal-from-bottom" data-reveal-container=".tiles-wrap">
                                 <div class="tiles-item-inner">
@@ -820,11 +1095,42 @@
                 </div>
             </section>
 
-            <section class="dashboard section has-top-divider">
+            <section class="quick-steps section has-top-divider">
+                <div class="container">
+                    <div class="section-inner">
+                        <div class="section-header center-content mb-32">
+                            <div class="container-xs">
+                                <h2 class="mt-0 mb-16">¿Cómo funciona?</h2>
+                                <p class="m-0">Solo tres pasos para reportar y darle seguimiento a una incidencia.</p>
+                            </div>
+                        </div>
+                        <div class="quick-steps-grid">
+                            <article class="quick-step reveal-from-bottom">
+                                <span class="quick-step-index">1</span>
+                                <h4>Reporta fácilmente</h4>
+                                <p>Describe la falla, adjunta evidencia y comparte la ubicación en segundos.</p>
+                            </article>
+                            <article class="quick-step reveal-from-bottom" data-reveal-delay="120">
+                                <span class="quick-step-index">2</span>
+                                <h4>Recibe tu folio</h4>
+                                <p>Obtén un identificador único para consultar el avance cuando lo necesites.</p>
+                            </article>
+                            <article class="quick-step reveal-from-bottom" data-reveal-delay="240">
+                                <span class="quick-step-index">3</span>
+                                <h4>Da seguimiento</h4>
+                                <p>Visualiza el estatus en mapa y revisa los tiempos de atención de cada caso.</p>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="mapa" class="dashboard section has-top-divider">
                 <div class="container">
                     <div class="dashboard-inner section-inner">
                         <div class="section-header center-content">
                             <div class="container-xs">
+                                <h2 class="mt-0 mb-16">Monitoreo de incidencias en tiempo real</h2>
                                 <p class="m-0">Monitorea el estado de tu comunidad. Mira los reportes activos y las
                                     estadísticas de resolución en tu zona.</p>
                             </div>
@@ -838,16 +1144,20 @@
 
                                     <div class="stats-grid mb-32">
                                         <div class="stat-card reveal-from-bottom" data-reveal-delay="100">
-                                            <div class="stat-value h3">124</div>
+                                            <div id="stat-total" class="stat-value h3">0</div>
                                             <div class="stat-label text-xxs tt-u fw-600">Total Reportes</div>
                                         </div>
                                         <div class="stat-card reveal-from-bottom" data-reveal-delay="200">
-                                            <div class="stat-value h3 text-color-success">86</div>
+                                            <div id="stat-resolved" class="stat-value h3 text-color-success">0</div>
                                             <div class="stat-label text-xxs tt-u fw-600">Resueltos</div>
                                         </div>
                                         <div class="stat-card reveal-from-bottom" data-reveal-delay="300">
-                                            <div class="stat-value h3 text-color-primary">22</div>
+                                            <div id="stat-inprogress" class="stat-value h3 text-color-primary">0</div>
                                             <div class="stat-label text-xxs tt-u fw-600">En Proceso</div>
+                                        </div>
+                                        <div class="stat-card reveal-from-bottom" data-reveal-delay="400">
+                                            <div id="stat-pending" class="stat-value h3" style="color: #f59e0b;">0</div>
+                                            <div class="stat-label text-xxs tt-u fw-600">Pendiente</div>
                                         </div>
                                     </div>
 
@@ -857,6 +1167,9 @@
                                         <div class="legend-item"><span class="dot bg-primary"></span> En Proceso</div>
                                         <div class="legend-item"><span class="dot bg-success"></span> Resuelto</div>
                                     </div>
+
+                                    <button type="button" class="button button-primary btn-my-location mt-24"
+                                        onclick="verMiUbicacion()">Ver mi ubicación en el mapa</button>
                                 </div>
                                 <div class="split-item-image reveal-from-right" style="position: relative;">
                                     <div id="map" class="map-mockup"></div>
@@ -949,9 +1262,12 @@
                     const tbody = document.getElementById('incidents-tbody');
                     if (!tbody) return;
                     tbody.innerHTML = '';
+                    if (!rows || rows.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:24px;color:#64748b">Aún no hay incidencias registradas.</td></tr>';
+                        return;
+                    }
                     rows.forEach(inc => {
                         const type = statusType(inc.estatus);
-                        const color = statusColor(type);
                         const pillClass = statusPillClass(type);
                         const hasLocation = inc.latitud && inc.longitud;
                         const date = inc.created_at ? new Date(inc.created_at).toLocaleDateString('es-MX') : '—';
@@ -1051,6 +1367,40 @@
                         .then(r => r.json())
                         .then(data => {
                             if (!data.ok) return;
+
+                            // Actualización dinámica de Estadísticas
+                            let totales = data.rows.length;
+                            let resueltos = 0;
+                            let enProceso = 0;
+                            let pendientes = 0;
+
+                            data.rows.forEach(inc => {
+                                let st = inc.estatus ? inc.estatus.toLowerCase() : '';
+                                if (st === 'resuelto') resueltos++;
+                                else if (st === 'en proceso' || st === 'activo') enProceso++;
+                                else if (st === 'pendiente' || st === '') pendientes++;
+                            });
+
+                            const elTotal = document.getElementById('stat-total');
+                            const elResolved = document.getElementById('stat-resolved');
+                            const elInprogress = document.getElementById('stat-inprogress');
+                            const elPending = document.getElementById('stat-pending');
+
+                            if (elTotal) {
+                                // Simple count animation
+                                let max = totales;
+                                let curr = 0;
+                                let intv = setInterval(() => {
+                                    curr = curr + Math.ceil(max / 10);
+                                    if (curr >= max) { curr = max; clearInterval(intv); }
+                                    elTotal.textContent = curr;
+                                }, 40);
+                            }
+                            if (elResolved) elResolved.textContent = resueltos;
+                            if (elInprogress) elInprogress.textContent = enProceso;
+                            if (elPending) elPending.textContent = pendientes;
+
+                            // Mapa & Marcadores
                             const withLocation = data.rows.filter(r => r.latitud && r.longitud);
 
                             // Heatmap
@@ -1075,7 +1425,7 @@
             </script>
 
             <!-- ===== TABLA DE INCIDENCIAS ===== -->
-            <section class="incidents-table-section section has-top-divider">
+            <section id="incidencias" class="incidents-table-section section has-top-divider">
                 <div class="container">
                     <div class="section-inner">
                         <div class="section-header center-content mb-32">
@@ -1109,12 +1459,23 @@
                     </div>
                 </div>
             </section>
-
-
-            </style>
-
-            </style>
             <!-- ===== FIN TABLA DE INCIDENCIAS ===== -->
+
+            <section class="final-cta section">
+                <div class="container">
+                    <div class="final-cta-card">
+                        <h2>Tu reporte puede cambiar tu colonia hoy</h2>
+                        <p>Mientras más ciudadanos participen, más rápido se detectan y atienden los problemas en vía
+                            pública. Inicia tu reporte en menos de 2 minutos.</p>
+                        <div class="button-group" style="justify-content:center; margin:0;">
+                            <a class="button button-primary modal-trigger" aria-controls="modal-report" href="#0">Crear
+                                reporte</a>
+                            <a class="button button-dark modal-trigger" aria-controls="modal-consult" href="#0">Consultar
+                                folio</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <!-- Boilerplate sections removed for a cleaner design -->
         </main>
@@ -1155,18 +1516,56 @@
                     <div class="footer-bottom space-between text-xxs invert-order-desktop">
                         <nav class="footer-nav">
                             <ul class="list-reset">
-                                <li><a href="#">Contact</a></li>
-                                <li><a href="#">About us</a></li>
-                                <li><a href="#">FAQ's</a></li>
-                                <li><a href="#">Support</a></li>
+                                <li><a href="#beneficios">Beneficios</a></li>
+                                <li><a href="#mapa">Mapa</a></li>
+                                <li><a href="#incidencias">Incidencias</a></li>
+                                <li><a class="modal-trigger" aria-controls="modal-consult" href="#0">Consultar
+                                        folio</a></li>
                             </ul>
                         </nav>
-                        <div class="footer-copyright">&copy; 2020 Tidy, all rights reserved</div>
                     </div>
+                    <div class="footer-copyright">&copy; 2026 Reporte Ciudadano, todos los derechos reservados.</div>
                 </div>
             </div>
-        </footer>
     </div>
+    </footer>
+    </div>
+
+    <!-- ===== ESTILOS DEL FOOTER MEJORADOS ===== -->
+    <style>
+        .site-footer {
+            background: #080808 !important;
+            /* Más oscuro que el resto */
+            border-top: 4px solid var(--primary);
+            color: #94a3b8;
+        }
+
+        .site-footer a {
+            color: #cbd5e1 !important;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .site-footer a:hover {
+            color: var(--primary) !important;
+        }
+
+        .footer-social li a svg {
+            fill: currentColor;
+            width: 20px;
+            height: 20px;
+        }
+
+        .footer-nav li {
+            display: inline-block;
+            margin-right: 1.5rem;
+        }
+
+        .footer-copyright {
+            color: #64748b;
+        }
+    </style>
+
     <!-- MODAL: Reportar incidencia -->
     <div id="modal-report" class="modal modal-custom">
         <div class="modal-inner modal-custom-inner">
@@ -1193,17 +1592,17 @@
             </div>
             <div class="modal-custom-body">
                 <form id="form-report">
-                    <div class="form-group">
+                    <div class="modal-form-group">
                         <label class="form-label-custom" for="reporter-name">Tu nombre</label>
                         <input id="reporter-name" class="form-input-custom" type="text" placeholder="Nombre completo"
                             required>
                     </div>
-                    <div class="form-group">
+                    <div class="modal-form-group">
                         <label class="form-label-custom" for="reporter-email">Correo electrónico</label>
                         <input id="reporter-email" class="form-input-custom" type="email" placeholder="tu@correo.com"
                             required>
                     </div>
-                    <div class="form-group">
+                    <div class="modal-form-group">
                         <label class="form-label-custom" for="failure-type">Tipo de falla</label>
                         <select id="failure-type" class="form-input-custom" required>
                             <option value="" disabled selected>Selecciona el tipo de falla</option>
@@ -1214,7 +1613,7 @@
                             <option value="coladeras">Coladera</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="modal-form-group">
                         <label class="form-label-custom" for="location">Ubicación o Dirección</label>
                         <div class="input-with-btn">
                             <input id="location" class="form-input-custom" type="text"
@@ -1231,11 +1630,11 @@
                         <input type="hidden" id="lat">
                         <input type="hidden" id="lng">
                     </div>
-                    <div class="form-group">
+                    <div class="modal-form-group">
                         <label class="form-label-custom" for="photo">Evidencia (Fotografía)</label>
                         <input id="photo" class="form-input-custom form-file" type="file" accept="image/*">
                     </div>
-                    <div class="form-group">
+                    <div class="modal-form-group">
                         <label class="form-label-custom" for="description">Descripción <span
                                 class="optional-tag">Opcional</span></label>
                         <textarea id="description" class="form-input-custom" rows="3"
@@ -1265,7 +1664,7 @@
         <div class="modal-inner modal-custom-inner">
             <div class="modal-custom-header">
                 <div class="modal-custom-header-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
                         stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8" />
                         <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -1285,7 +1684,7 @@
             </div>
             <div class="modal-custom-body">
                 <form id="form-consult">
-                    <div class="form-group">
+                    <div class="modal-form-group">
                         <label class="form-label-custom" for="report-number">ID de Incidencia</label>
                         <input id="report-number" class="form-input-custom" type="number" min="1" placeholder="Ej: 4"
                             required>
@@ -1304,9 +1703,16 @@
                         <div class="status-result-divider"></div>
                         <p id="status-reporter" class="status-result-update"></p>
                         <p id="status-desc" class="status-result-update mt-8" style="margin-top:8px"></p>
-                        <button id="btn-ver-en-mapa" class="btn-submit-modal" style="margin-top:16px;display:none"
+                        <button id="btn-ver-en-mapa" class="btn-submit-modal"
+                            style="margin-top:24px; display:none; align-items:center; justify-content:center; gap:8px;"
                             type="button">
-                            🗺️ Ver en el mapa
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                                <line x1="8" y1="2" x2="8" y2="18"></line>
+                                <line x1="16" y1="6" x2="16" y2="22"></line>
+                            </svg>
+                            Ver en el mapa
                         </button>
                     </div>
                 </div>
@@ -1315,145 +1721,183 @@
     </div>
 
     <style>
-        /* ===== MODAL CUSTOM STYLES — paleta guinda/negro/gris/blanco ===== */
+        /* ===== MODAL CUSTOM STYLES — Ultra Modern SaaS ===== */
 
         .modal-custom-inner {
-            background: #fff;
-            border-radius: 16px;
+            background: #ffffff;
+            border-radius: 28px;
             overflow: hidden;
-            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22);
-            max-width: 480px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15), 0 10px 30px rgba(0, 0, 0, 0.05);
+            max-width: 520px;
             width: 100%;
-            transform: translateY(24px);
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(30px) scale(0.96);
             opacity: 0;
-            transition: transform .35s cubic-bezier(.22, .68, 0, 1.2), opacity .3s ease;
+            transition: transform .45s cubic-bezier(0.16, 1, 0.3, 1), opacity .3s ease;
             margin: auto;
+            border: 1px solid rgba(0, 0, 0, 0.04);
         }
 
         .modal-custom.is-active .modal-custom-inner {
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
             opacity: 1;
         }
 
         /* Header */
         .modal-custom-header {
-            background: #0b0b0b;
-            padding: 20px 24px;
+            background: #ffffff;
+            padding: 36px 36px 24px;
             display: flex;
-            align-items: flex-start;
-            gap: 14px;
+            align-items: center;
+            gap: 20px;
             position: relative;
-            border-bottom: 3px solid #9D1B32;
+            border-bottom: 2px solid #f8fafc;
+            flex-shrink: 0;
         }
 
         .modal-custom-header-icon {
-            background: #9D1B32;
-            border-radius: 10px;
-            width: 44px;
-            height: 44px;
+            background: rgba(157, 27, 50, 0.1);
+            color: #9D1B32;
+            border-radius: 12px;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            margin-top: 2px;
+        }
+
+        .modal-custom-header-icon svg {
+            stroke: #9D1B32;
         }
 
         .modal-custom-title {
-            margin: 0 0 4px;
-            font-size: 20px;
-            font-weight: 700;
-            color: #fff;
-            line-height: 1.2;
+            margin: 0 0 6px;
+            font-size: 26px;
+            font-weight: 900;
+            color: #0f172a;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
         }
 
         .modal-custom-subtitle {
             margin: 0;
-            font-size: 13px;
-            color: #9ca3af;
-            line-height: 1.4;
+            font-size: 15px;
+            color: #64748b;
+            line-height: 1.6;
         }
 
         .modal-custom-close {
             position: absolute;
-            top: 14px;
-            right: 14px;
-            background: rgba(255, 255, 255, 0.08);
+            top: 24px;
+            right: 24px;
+            background: #f8fafc;
             border: none;
-            border-radius: 8px;
-            width: 34px;
-            height: 34px;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            color: #9ca3af;
-            transition: background .2s, color .2s;
+            color: #64748b;
+            transition: all .2s;
         }
 
         .modal-custom-close:hover {
-            background: #9D1B32;
-            color: #fff;
+            background: #e2e8f0;
+            color: #0f172a;
+            transform: rotate(90deg);
         }
 
         /* Body */
         .modal-custom-body {
-            padding: 24px;
+            padding: 24px 30px 30px;
+            overflow-y: auto;
+            flex: 1;
         }
 
-        /* Form groups */
-        .form-group {
-            margin-bottom: 18px;
+        /* Custom Scrollbar for Modal Body to make it look premium */
+        .modal-custom-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal-custom-body::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+
+        .modal-custom-body::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        /* Form groups - Ultra Premium Alignment */
+        .modal-form-group {
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
         }
 
         .form-label-custom {
-            display: block;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #627183;
-            margin-bottom: 6px;
+            display: inline-flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 10px;
+            width: 100%;
+            text-align: left;
+            line-height: 1.4;
         }
 
         .optional-tag {
-            font-weight: 400;
-            text-transform: none;
-            letter-spacing: 0;
-            color: #9ca3af;
+            font-weight: 500;
+            color: #94a3b8;
             font-size: 11px;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
         }
 
         .form-input-custom {
             width: 100%;
-            background: #F8F9FB;
-            border: 1.5px solid #E7ECF2;
-            border-radius: 8px;
-            color: #0b0b0b;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            color: #0f172a;
             font-size: 15px;
-            padding: 11px 14px;
-            transition: border-color .2s, box-shadow .2s;
+            padding: 12px 16px;
+            transition: all .2s;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) inset;
         }
 
         .form-input-custom:focus {
             outline: none;
             border-color: #9D1B32;
-            box-shadow: 0 0 0 3px rgba(157, 27, 50, 0.12);
+            box-shadow: 0 0 0 4px rgba(157, 27, 50, 0.1);
             background: #fff;
         }
 
         .form-input-custom::placeholder {
-            color: #aab;
+            color: #94a3b8;
         }
 
         .form-file {
-            padding: 9px 14px;
+            padding: 10px 14px;
             cursor: pointer;
+            background: #f8fafc;
         }
 
         /* Location row */
         .input-with-btn {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
 
         .input-with-btn .form-input-custom {
@@ -1461,153 +1905,171 @@
         }
 
         .btn-geo {
-            background: #0b0b0b;
-            border: 1.5px solid #0b0b0b;
-            border-radius: 8px;
-            color: #fff;
-            padding: 0 14px;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            color: #475569;
+            padding: 0 16px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            transition: background .2s;
+            transition: all .2s;
             flex-shrink: 0;
         }
 
         .btn-geo:hover {
-            background: #9D1B32;
-            border-color: #9D1B32;
+            background: #e2e8f0;
+            color: #0f172a;
+            border-color: #94a3b8;
         }
 
         .field-hint {
             display: block;
-            font-size: 11px;
-            color: #627183;
-            margin-top: 5px;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 6px;
         }
 
         /* Submit */
         .btn-submit-modal {
             width: 100%;
-            background: #9D1B32;
+            background: linear-gradient(135deg, #9D1B32 0%, #7d1528 100%);
             color: #fff;
             border: none;
-            border-radius: 8px;
-            padding: 13px 24px;
-            font-size: 15px;
-            font-weight: 700;
+            border-radius: 10px;
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: 800;
             cursor: pointer;
-            transition: background .2s, transform .1s;
-            margin-top: 6px;
+            transition: all .2s;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(157, 27, 50, 0.25);
         }
 
         .btn-submit-modal:hover {
-            background: #7A1527;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(157, 27, 50, 0.35);
         }
 
         .btn-submit-modal:active {
-            transform: scale(.98);
+            transform: translateY(0);
         }
 
         /* Success */
         .modal-success {
             text-align: center;
-            padding: 8px 0 0;
+            padding: 16px 0 8px;
         }
 
         .modal-success-icon {
             display: flex;
             justify-content: center;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .modal-success-title {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 800;
-            color: #0b0b0b;
-            margin: 0 0 8px;
+            color: #0f172a;
+            margin: 0 0 10px;
         }
 
         .modal-success-text {
-            font-size: 14px;
-            color: #627183;
-            margin: 0 0 14px;
+            font-size: 15px;
+            color: #64748b;
+            margin: 0 0 16px;
         }
 
         .modal-folio-badge {
             display: inline-block;
-            background: #0b0b0b;
-            color: #fff;
-            border-radius: 8px;
-            padding: 10px 24px;
-            font-size: 20px;
-            font-weight: 800;
+            background: #f8fafc;
+            color: #0f172a;
+            border-radius: 12px;
+            padding: 12px 28px;
+            font-size: 22px;
+            font-weight: 900;
             letter-spacing: 0.05em;
-            margin-bottom: 14px;
-            border-left: 5px solid #9D1B32;
+            margin-bottom: 16px;
+            border: 1px solid #e2e8f0;
+            border-left: 6px solid #10b981;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .modal-success-hint {
-            font-size: 12px;
+            font-size: 13px;
             color: #9ca3af;
             margin: 0;
         }
 
-        /* Consult result */
+        /* Consult result - Ultra Premium Card */
         .status-result-card {
-            background: #F8F9FB;
-            border-radius: 12px;
-            border-left: 5px solid #9D1B32;
-            padding: 18px 20px;
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            border-left: 8px solid #9D1B32;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05), 0 2px 10px rgba(0, 0, 0, 0.02);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+        }
+
+        .status-result-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
         }
 
         .status-result-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .status-result-label {
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: #627183;
+            letter-spacing: 0.1em;
+            color: #64748b;
         }
 
         .status-result-pill {
             background: #9D1B32;
             color: #fff;
-            font-size: 10px;
-            font-weight: 700;
+            font-size: 12px;
+            font-weight: 900;
             text-transform: uppercase;
-            padding: 3px 10px;
-            border-radius: 20px;
+            padding: 6px 14px;
+            border-radius: 30px;
+            letter-spacing: 0.06em;
+            box-shadow: 0 4px 12px rgba(157, 27, 50, 0.2);
         }
 
         .status-result-type {
-            font-size: 17px;
-            font-weight: 700;
-            color: #0b0b0b;
-            margin: 0 0 4px;
+            font-size: 24px;
+            font-weight: 900;
+            color: #0f172a;
+            margin: 16px 0 20px;
+            letter-spacing: -0.04em;
         }
 
         .status-result-date {
-            font-size: 12px;
-            color: #9ca3af;
-            margin: 0 0 14px;
+            font-size: 15px;
+            color: #475569;
+            margin: 0 0 20px;
         }
 
         .status-result-divider {
-            height: 1px;
-            background: #E7ECF2;
-            margin-bottom: 14px;
+            height: 2px;
+            background: #f1f5f9;
+            margin: 24px 0 20px;
+            width: 100%;
         }
 
         .status-result-update {
-            font-size: 13px;
-            color: #627183;
+            font-size: 15px;
+            color: #334155;
             margin: 0;
+            line-height: 1.7;
         }
 
         /* Legacy helpers kept for JS */
@@ -1852,7 +2314,7 @@
                     }
 
                     const inc = data.row;
-                    const statusColors = { resuelto: '#22c55e', activo: '#9D1B32', pendiente: '#ef4444', 'en proceso': '#9D1B32' };
+                    const statusColors = { resuelto: '#22c55e', activo: '#9D1B32', pendiente: '#f59e0b', 'en proceso': '#3b82f6', rechazado: '#ef4444' };
                     const estatus = (inc.estatus || 'pendiente').toLowerCase();
                     const color = statusColors[estatus] || '#627183';
                     const date = inc.created_at ? new Date(inc.created_at).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }) : '—';
@@ -1861,18 +2323,26 @@
                     pill.textContent = inc.estatus || 'pendiente';
                     pill.style.background = color;
 
+                    // Update dynamic left border
+                    const card = document.querySelector('.status-result-card');
+                    if (card) {
+                        card.style.borderLeftColor = color;
+                    }
+
                     document.getElementById('status-type').textContent =
-                        (inc.tipo_incidencia || '—') + (inc.id ? '  •  ID #' + inc.id : '');
-                    document.getElementById('status-address').textContent =
-                        '📍 ' + (inc.direccion || 'Sin dirección registrada');
-                    document.getElementById('status-date').textContent = '📅 Reportado el: ' + date;
+                        (inc.tipo_incidencia || 'Incidencia') + (inc.id ? ' • ID #' + inc.id : '');
+                    document.getElementById('status-address').innerHTML =
+                        '<span style="display:inline-flex; align-items:flex-start; gap:10px"><svg style="flex-shrink:0; margin-top:3px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9D1B32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>' +
+                        '<span>' + (inc.direccion || 'Sin dirección registrada') + '</span></span>';
+                    document.getElementById('status-date').innerHTML =
+                        '<span style="display:inline-flex; align-items:flex-start; gap:10px; margin-bottom: 6px;"><svg style="flex-shrink:0; margin-top:2px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg><span>Reportado el: ' + date + '</span></span>';
                     document.getElementById('status-reporter').innerHTML =
-                        '<strong>Ciudadano:</strong> ' + (inc.nombre_ciudadano || 'Anónimo') +
+                        '<span style="color:#0f172a; font-weight:800;">Ciudadano:</span> ' + (inc.nombre_ciudadano || 'Anónimo') +
                         (inc.email ? ' — ' + inc.email : '');
                     document.getElementById('status-desc').innerHTML =
                         inc.descripcion
-                            ? '<strong>Descripción:</strong> ' + inc.descripcion
-                            : '<em style="color:#aaa">Sin descripción adicional.</em>';
+                            ? '<span style="color:#0f172a; font-weight:800;">Descripción:</span> ' + inc.descripcion
+                            : '<em style="color:#94a3b8">Sin descripción adicional.</em>';
 
                     // Ver en mapa button
                     const btnVerMapa = document.getElementById('btn-ver-en-mapa');
