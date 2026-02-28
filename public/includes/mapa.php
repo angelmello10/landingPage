@@ -61,6 +61,10 @@
                         <span class="map-legend-item"><span class="map-legend-dot" style="background:#ef4444"></span>Rechazado</span>
                         <span class="map-legend-item"><span class="map-legend-dot" style="background:#3b82f6"></span>En Proceso</span>
                         <span class="map-legend-item"><span class="map-legend-dot" style="background:#10b981"></span>Resuelto</span>
+                        <span class="map-live-badge" id="map-live-badge">
+                            <span class="map-live-dot"></span>
+                            <span id="map-live-text">En vivo</span>
+                        </span>
                     </div>
                     <div class="map-controls-right">
                         <!-- Folio quick-search -->
@@ -272,6 +276,32 @@
     };
 
     function initMap() {
+        /* PulseOverlay ─ debe definirse aqui, una vez que Maps API esta lista */
+        class PulseOverlay extends google.maps.OverlayView {
+            constructor(latlng, color) {
+                super();
+                this._pos   = latlng;
+                this._color = color;
+                this._div   = null;
+            }
+            onAdd() {
+                this._div = document.createElement('div');
+                this._div.className = 'map-pulse';
+                this._div.style.setProperty('--pulse-color', this._color);
+                this.getPanes().overlayMouseTarget.appendChild(this._div);
+            }
+            draw() {
+                const p = this.getProjection().fromLatLngToDivPixel(this._pos);
+                if (!p || !this._div) return;
+                this._div.style.left = p.x + 'px';
+                this._div.style.top  = p.y + 'px';
+            }
+            onRemove() {
+                if (this._div && this._div.parentNode) this._div.parentNode.removeChild(this._div);
+                this._div = null;
+            }
+        }
+
         const center = { lat: 19.4326, lng: -99.1332 };
         gMap = new google.maps.Map(document.getElementById('map'), {
             zoom: 13,
@@ -290,57 +320,94 @@
             document.getElementById('pin-details').classList.remove('is-active');
         });
 
-        fetch('/api/incidencias.php?limit=100')
-            .then(r => r.json())
-            .then(data => {
-                if (!data.ok) return;
+        /* ── LIVE POLLING ── */
+        let heatmapLayer = null;
+        let lastUpdate   = null;
+        let isFirstLoad  = true;
+        let liveTimer    = null;
 
-                let totales = data.rows.length;
-                let resueltos = 0;
-                let enProceso = 0;
-                let pendientes = 0;
+        function actualizarBadge() {
+            const el = document.getElementById('map-live-text');
+            if (!el || !lastUpdate) return;
+            const seg = Math.round((Date.now() - lastUpdate) / 1000);
+            el.textContent = seg < 10 ? 'Ahora mismo' :
+                             seg < 60 ? `hace ${seg}s` :
+                             `hace ${Math.round(seg/60)}m`;
+        }
 
-                data.rows.forEach(inc => {
-                    let st = inc.estatus ? inc.estatus.toLowerCase() : '';
-                    if (st === 'resuelto') resueltos++;
-                    else if (st === 'en proceso' || st === 'activo') enProceso++;
-                    else if (st === 'pendiente' || st === '') pendientes++;
-                });
+        function cargarIncidencias() {
+            fetch('/api/incidencias.php?limit=300')
+                .then(r => r.json())
+                .then(data => {
+                    if (!data.ok) return;
 
-                const elTotal = document.getElementById('stat-total');
-                const elResolved = document.getElementById('stat-resolved');
-                const elInprogress = document.getElementById('stat-inprogress');
-                const elPending = document.getElementById('stat-pending');
+                    /* ─ stats ─ */
+                    let totales = data.rows.length, resueltos = 0, enProceso = 0, pendientes = 0;
+                    data.rows.forEach(inc => {
+                        const st = inc.estatus ? inc.estatus.toLowerCase() : '';
+                        if (st === 'resuelto') resueltos++;
+                        else if (st === 'en proceso' || st === 'activo') enProceso++;
+                        else pendientes++;
+                    });
 
-                if (elTotal) {
-                    let max = totales;
-                    let curr = 0;
-                    let intv = setInterval(() => {
-                        curr = curr + Math.ceil(max / 10);
-                        if (curr >= max) { curr = max; clearInterval(intv); }
-                        elTotal.textContent = curr;
-                    }, 40);
-                }
-                if (elResolved) elResolved.textContent = resueltos;
-                if (elInprogress) elInprogress.textContent = enProceso;
-                if (elPending) elPending.textContent = pendientes;
+                    const elTotal      = document.getElementById('stat-total');
+                    const elResolved   = document.getElementById('stat-resolved');
+                    const elInprogress = document.getElementById('stat-inprogress');
+                    const elPending    = document.getElementById('stat-pending');
 
-                const withLocation = data.rows.filter(r => r.latitud && r.longitud);
+                    if (isFirstLoad && elTotal) {
+                        let curr = 0;
+                        const intv = setInterval(() => {
+                            curr = curr + Math.ceil(totales / 10);
+                            if (curr >= totales) { curr = totales; clearInterval(intv); }
+                            elTotal.textContent = curr;
+                        }, 40);
+                    } else if (elTotal) {
+                        elTotal.textContent = totales;
+                    }
+                    if (elResolved)   elResolved.textContent   = resueltos;
+                    if (elInprogress) elInprogress.textContent = enProceso;
+                    if (elPending)    elPending.textContent    = pendientes;
 
-                const heatmapData = withLocation.map(r => new google.maps.LatLng(parseFloat(r.latitud), parseFloat(r.longitud)));
-                new google.maps.visualization.HeatmapLayer({
-                    data: heatmapData,
-                    map: gMap,
-                    radius: 30,
-                    gradient: ['rgba(157,27,50,0)', 'rgba(157,27,50,1)', 'rgba(157,27,50,1)']
-                });
+                    /* ─ markers: solo agrega los nuevos ─ */
+                    const withLocation = data.rows.filter(r => r.latitud && r.longitud);
+                    let hayNuevos = false;
 
-                withLocation.forEach(inc => {
-                    gMarkers[inc.id] = buildMarker(gMap, inc);
-                });
+                    withLocation.forEach(inc => {
+                        if (gMarkers[inc.id]) return; // ya existe
+                        gMarkers[inc.id] = buildMarker(gMap, inc);
+                        const pulse = new PulseOverlay(
+                            new google.maps.LatLng(parseFloat(inc.latitud), parseFloat(inc.longitud)),
+                            statusColor(statusType(inc.estatus))
+                        );
+                        pulse.setMap(gMap);
+                        hayNuevos = true;
+                    });
 
-                buildTable(data.rows);
-            })
-            .catch(err => console.error('Error cargando incidencias:', err));
+                    /* ─ heatmap: solo reconstruye si hay datos nuevos o primer load ─ */
+                    if (isFirstLoad || hayNuevos) {
+                        if (heatmapLayer) heatmapLayer.setMap(null);
+                        heatmapLayer = new google.maps.visualization.HeatmapLayer({
+                            data: withLocation.map(r => new google.maps.LatLng(parseFloat(r.latitud), parseFloat(r.longitud))),
+                            map: gMap,
+                            radius: 30,
+                            gradient: ['rgba(157,27,50,0)', 'rgba(157,27,50,1)', 'rgba(157,27,50,1)']
+                        });
+                    }
+
+                    /* ─ tabla ─ */
+                    buildTable(data.rows);
+
+                    /* ─ badge ─ */
+                    lastUpdate = Date.now();
+                    actualizarBadge();
+                    isFirstLoad = false;
+                })
+                .catch(err => console.error('Error cargando incidencias:', err));
+        }
+
+        cargarIncidencias(); // carga inicial
+        setInterval(cargarIncidencias, 30000); // polling cada 30 s
+        setInterval(actualizarBadge, 10000);   // actualiza el texto del badge
     }
 </script>

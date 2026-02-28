@@ -56,7 +56,7 @@
         }
 
         *, *::before, *::after { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html, body { scroll-behavior: smooth; }
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             color: var(--text);
@@ -86,7 +86,7 @@
             -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
             border-bottom: 1px solid rgba(0,0,0,0.07) !important;
             box-shadow: 0 1px 12px rgba(0,0,0,0.06);
-            position: sticky; top: 0; z-index: 100;
+            position: sticky !important; top: 0; z-index: 200 !important;
             transition: background .3s, border-color .3s, box-shadow .3s, padding .3s;
         }
         /* Scrolled state */
@@ -129,7 +129,7 @@
         html.dark .brand-name       { color: rgba(255,255,255,0.75); }
         html.dark .brand-name strong { color: #fff; }
 
-        /* Nav layout */
+        /* Nav layout — desktop */
         .header-nav-inner {
             display: flex; align-items: center; justify-content: flex-end;
             gap: 0; width: 100%;
@@ -193,14 +193,88 @@
             color: #fff !important;
         }
 
+        /* Hamburger bars — dark on light bg, white on dark bg */
+        .header-nav-toggle {
+            background: none !important;
+            border: none !important;
+            padding: 8px !important;
+            cursor: pointer;
+            display: none !important; /* reemplazado por hamburger-mobile.php */
+            z-index: 10;
+        }
         .hamburger-inner,
         .hamburger-inner::before,
-        .hamburger-inner,
-        .hamburger-inner::before,
-        .hamburger-inner::after { background: #334155 !important; }
+        .hamburger-inner::after { background: #0d1117 !important; }
         html.dark .hamburger-inner,
         html.dark .hamburger-inner::before,
         html.dark .hamburger-inner::after { background: #fff !important; }
+
+        /* ── MOBILE NAV ── */
+        @media (max-width: 768px) {
+            .header-nav-toggle { display: block !important; }
+
+            /* override style.css adjacent-sibling rule with !important */
+            .header-nav-toggle + .header-nav,
+            .header-nav {
+                position: fixed !important;
+                top: 72px !important;
+                left: 0 !important; right: 0 !important;
+                width: 100% !important;
+                background: rgba(255,255,255,0.98) !important;
+                backdrop-filter: blur(20px) !important;
+                -webkit-backdrop-filter: blur(20px) !important;
+                border-bottom: 1px solid rgba(0,0,0,0.09) !important;
+                box-shadow: 0 16px 40px rgba(0,0,0,0.12) !important;
+                z-index: 9999 !important;
+                flex-grow: 0 !important;
+                flex-direction: column !important;
+                overflow: hidden !important;
+                /* hidden state */
+                max-height: 0 !important;
+                opacity: 0 !important;
+                pointer-events: none !important;
+                transition: max-height .35s ease, opacity .25s ease !important;
+            }
+            .header-nav-toggle + .header-nav.mob-open,
+            .header-nav.mob-open {
+                max-height: 400px !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+            }
+            html.dark .header-nav-toggle + .header-nav,
+            html.dark .header-nav {
+                background: rgba(10,14,22,0.97) !important;
+                border-bottom-color: rgba(255,255,255,0.07) !important;
+            }
+
+            .header-nav-inner {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                padding: 12px 16px 20px !important;
+                gap: 4px !important;
+            }
+            .nav-links {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 2px !important;
+                margin-right: 0 !important;
+            }
+            .header-link {
+                justify-content: flex-start !important;
+                padding: 13px 16px !important;
+                font-size: 0.95rem !important;
+                border-radius: var(--r-md) !important;
+                color: #0d1117 !important;
+                border: none !important;
+            }
+            .header-link::after { display: none !important; }
+            .header-link:hover, .header-link:active {
+                background: rgba(157,27,50,0.07) !important;
+                color: var(--primary) !important;
+            }
+            html.dark .header-link { color: rgba(255,255,255,0.85) !important; }
+            html.dark .header-link:hover { background: rgba(255,255,255,0.07) !important; color: #fff !important; }
+        }
 
         /* ── HERO ── */
         .hero.has-bg-color { position: relative; overflow: hidden; }
@@ -666,10 +740,54 @@
         }
         .map-folio-wrap button:hover { background: var(--primary-dark); }
 
+        /* Live badge */
+        .map-live-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 0.72rem; font-weight: 600; color: #475569;
+            padding: 4px 10px 4px 8px;
+            background: #f0fdf4; border: 1px solid #bbf7d0;
+            border-radius: var(--r-full);
+            transition: opacity .4s;
+        }
+        .map-live-dot {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: #10b981; flex-shrink: 0;
+            box-shadow: 0 0 0 0 rgba(16,185,129,.5);
+            animation: live-pulse 2s ease-out infinite;
+        }
+        @keyframes live-pulse {
+            0%   { box-shadow: 0 0 0 0 rgba(16,185,129,.5); }
+            70%  { box-shadow: 0 0 0 6px rgba(16,185,129,0); }
+            100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+        }
+        html.dark .map-live-badge { background: #052e16; border-color: #166534; color: #86efac; }
+
         /* Map canvas */
         .map-mockup {
             width: 100%; height: 500px;
             position: relative;
+        }
+
+        /* ── Marker pulse ring ── */
+        .map-pulse {
+            position: absolute;
+            width: 16px; height: 16px;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+        }
+        .map-pulse::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 1.5px solid var(--pulse-color, #f59e0b);
+            opacity: 0;
+            animation: mp-ring 3s ease-out infinite;
+        }
+        @keyframes mp-ring {
+            0%   { transform: scale(0.6); opacity: 0.55; }
+            100% { transform: scale(2.4); opacity: 0; }
         }
 
         /* Pin details card */

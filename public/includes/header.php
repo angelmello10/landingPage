@@ -19,17 +19,11 @@
                 </a>
             </div>
 
-            <!-- Hamburger (mobile) -->
-            <button id="header-nav-toggle" class="header-nav-toggle" aria-controls="primary-menu" aria-expanded="false">
-                <span class="screen-reader">Menu</span>
-                <span class="hamburger"><span class="hamburger-inner"></span></span>
-            </button>
-
             <!-- Nav -->
             <nav id="header-nav" class="header-nav">
                 <div class="header-nav-inner">
                     <div class="nav-links">
-                        <a class="header-link" href="#mapa">Mapa en vivo</a>
+                        <a class="header-link smooth-scroll" href="#mapa">Mapa en vivo</a>
                         <a class="header-link" href="#incidencias">Incidencias</a>
                     </div>
                     <!-- <div class="nav-actions">
@@ -91,4 +85,38 @@
         var isDark = document.documentElement.classList.toggle('dark');
         try { localStorage.setItem('rc-theme', isDark ? 'dark' : 'light'); } catch(e){}
     });
+
+    /* ── MOBILE NAV TOGGLE (propio, no depende de main.min.js) ── */
+    (function () {
+        var btn = document.getElementById('header-nav-toggle');
+        var nav = document.getElementById('header-nav');
+        if (!btn || !nav) return;
+
+        function openNav() {
+            nav.classList.add('mob-open');
+            btn.setAttribute('aria-expanded', 'true');
+            // también activa la animación de la hamburguesa del framework
+            nav.classList.add('is-active');
+        }
+        function closeNav() {
+            nav.classList.remove('mob-open', 'is-active');
+            btn.setAttribute('aria-expanded', 'false');
+        }
+        function isOpen() { return nav.classList.contains('mob-open'); }
+
+        btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            isOpen() ? closeNav() : openNav();
+        });
+
+        // cerrar al tocar un link
+        nav.querySelectorAll('.header-link').forEach(function (link) {
+            link.addEventListener('click', closeNav);
+        });
+
+        // cerrar al tocar fuera
+        document.addEventListener('click', function (e) {
+            if (isOpen() && !nav.contains(e.target) && e.target !== btn) closeNav();
+        });
+    })();
 </script>
